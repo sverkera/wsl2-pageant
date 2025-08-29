@@ -41,7 +41,7 @@ Requires=named-pipe-ssh-agent.socket
 [Service]
 Type=simple
 EnvironmentFile=%h/.config/systemd/user/named-pipe-ssh-agent.env
-ExecStart=%h/.local/bin/npiperelay.exe -p -l -ei -s '$SSH_AGENT_PIPE'
+ExecStart=%h/.local/bin/npiperelay.exe -p -l -ei -s '\$SSH_AGENT_PIPE'
 StandardInput=socket
 
 [Install]
@@ -52,7 +52,7 @@ EOF
 ```shell
 cat <<EOF >> ~/.profile
 export SSH_AUTH_SOCK=/run/user/1000/ssh/ssh-agent.sock
-echo >.config/systemd/user/named-pipe-ssh-agent.env SSH_AGENT_PIPE="$(wslpath "$(powershell.exe -Command '[System.IO.Directory]::GetFiles("\\.\\pipe\\")')" 2>&1 | grep pageant | tr '\\' '/')"
+echo >.config/systemd/user/named-pipe-ssh-agent.env SSH_AGENT_PIPE="\$(wslpath "\$(powershell.exe -Command '[System.IO.Directory]::GetFiles("\\\\.\\\\pipe\\\\")')" 2>&1 | grep pageant | tr '\\\\' '/')"
 EOF
 ```
 7) Activate the changes and test the result by listing the available keys.
