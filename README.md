@@ -51,7 +51,7 @@ EOF
 6) The trick is to figure out the name of pageant named pipe. That is done in .profile and put in an environment file read by systemd. We also add setting SSH_AUTH_SOCK
 ```shell
 cat <<EOF >> ~/.profile
-export SSH_AUTH_SOCK=/run/user/1000/ssh/ssh-agent.sock
+export SSH_AUTH_SOCK=/run/user/\$UID/ssh/ssh-agent.sock
 echo >.config/systemd/user/named-pipe-ssh-agent.env SSH_AGENT_PIPE="\$(wslpath "\$(powershell.exe -Command '[System.IO.Directory]::GetFiles("\\\\.\\\\pipe\\\\")')" 2>&1 | grep pageant | tr '\\\\' '/')"
 EOF
 ```
